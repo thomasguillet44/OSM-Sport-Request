@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.recherche-col {
+	margin: 2em;
+}
+
+#map {
+	height: 500px; /* Hauteur de la carte */
+	width: 100%; /* Largeur de la carte */
+	margin-top: 3em;
+}
