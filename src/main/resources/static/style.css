@@ -9,3 +9,7 @@
 	width: 100%; /* Largeur de la carte */
 	margin-top: 3em;
 }
+
+.actionsContainer {
+	margin: 2em;
+}

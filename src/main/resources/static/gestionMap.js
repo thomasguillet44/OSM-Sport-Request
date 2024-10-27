@@ -1,7 +1,11 @@
 // Initialiser la carte
-var map = L.map('map').setView([48.8566, 2.3522], 13); // Coordonnées pour Paris
+var map = L.map('map').setView([0, 0], 13); // Coordonnées pour Paris
 
-var loadMap = function() {
+var latCurrentLocation;
+var longCurrentLocation;
+
+var loadMap = function() {		
+		centerMapOnCurrentLocation();
 	    // Ajouter la couche de carte OSM
 	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	        maxZoom: 20,
@@ -44,7 +48,7 @@ var actualiserMap = function() {
 		sportFilter.forEach(sport => queryFilteredSports += "nwr[sport=" + sport + "]" + queryCoordonates);
 		
 		var finalQuery = queryInit + (queryFilteredSports || "nwr[leisure]" + queryCoordonates) + `);out body;`;
-
+		
 	    // Appel à l'API Overpass
 	    fetch('https://overpass-api.de/api/interpreter', {
 	        method: 'POST',
@@ -71,6 +75,17 @@ var updateMapWithData = function(data) {
     data.elements.forEach(element => {
         var marker = L.marker([element.lat, element.lon]).addTo(map)
                 .bindPopup(miseEnFormeTag(element.tags));
+		marker.addEventListener('click', function() {
+			var name = element.tags["name"];
+			var nameContainer = document.querySelector("#nameOfThePlace");
+			nameContainer.innerHTML = name || "Aucun trouvé pour cette structure";
+			
+			var buttonGetToThere = document.querySelector("#getToThisPoint");
+			buttonGetToThere.disabled = false;
+			
+			buttonGetToThere.dataset.lat = element.lat;
+			buttonGetToThere.dataset.lon = element.lon;
+		})
 		markers.push(marker);
     });
 }
@@ -91,5 +106,54 @@ var clearMarkers = function() {
 	   });
 	   markers = []; // Réinitialiser le tableau de marqueurs
 }
+
+
+// Fonction pour centrer la carte sur la localisation actuelle
+var centerMapOnCurrentLocation = function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const { latitude, longitude } = position.coords;
+				latCurrentLocation = position.coords.latitude;
+				longCurrentLocation = position.coords.longitude;
+                map.setView([latitude, longitude], 13); // Centrer la carte
+                L.marker([latitude, longitude], {icon : iconCurrentLocation}).addTo(map);
+            },
+            error => {
+                console.error("Erreur lors de l'obtention de la localisation : ", error);
+            }
+        );
+    } else {
+        console.log("La géolocalisation n'est pas supportée par ce navigateur.");
+    }
+}
+
+var showItinerary = function(button) {
+	var latitude = button.dataset.lat;
+	var longitude = button.dataset.lon;
+	
+	map.eachLayer(layer => {
+	  if (layer.options.waypoints && layer.options.waypoints.length) {
+	    this.map.removeLayer(layer);
+	   }
+	});
+	
+	L.Routing.control({
+		waypoints: [
+			L.latLng(latCurrentLocation, longCurrentLocation),
+			L.latLng(latitude, longitude)
+		]
+	}).addTo(map);
+}
+
+iconCurrentLocation = L.divIcon({
+        className: 'custom-div-icon',
+        html: `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="red" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+		  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+		</svg>`,
+		iconAnchor: [13, 13]
+    });
+    
+
 
 window.onload = loadMap();

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="actionsContainer" th:fragment="actions">
+		<div id="nameOfThePlace">Aucun lieu sélectionné</div>
+		<button id="getToThisPoint" data-lat=0 data-lon=0 onclick="showItinerary(this)" disabled>S'y rendre</button>
+		<button id="addToFavourite" disabled> Ajouter aux favoris </button>
+	</div>
+</body>
+</html>
