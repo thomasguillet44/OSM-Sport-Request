@@ -8,51 +8,66 @@
 
 <div th:fragment="recherche" class="recherche-col">
 
-	<h1>Test recherche</h1>
+	<div>
+		<button onclick="selectTab(0)" class="tab-button active">Recherche</button>	
+		<button onclick="selectTab(1)" class="tab-button">Favoris</button>
+	</div>
 	
-	<input type="checkbox" id="tennis" name="tennis" value="tennis">
-    <label for="tennis">Tennis</label><br>
+	<div class="tab-container">
+	<div class="tab-content" style="display: block">
+		<input type="checkbox" id="tennis" name="tennis" value="tennis">
+    	<label for="tennis">Tennis</label><br>
     
-    <input type="checkbox" id="badminton" name="badminton" value="badminton">
-    <label for="badminton">Badminton</label><br>
+   	 	<input type="checkbox" id="badminton" name="badminton" value="badminton">
+    	<label for="badminton">Badminton</label><br>
     
-    <input type="checkbox" id="basketball" name="basketball" value="basketball">
-    <label for="basketball">Basketball</label><br>
+    	<input type="checkbox" id="basketball" name="basketball" value="basketball">
+    	<label for="basketball">Basketball</label><br>
     
-    <input type="checkbox" id="beachvolleyball" name="beachvolleyball" value="beachvolleyball">
-    <label for="beachvolleyball">Basketball</label><br>
+    	<input type="checkbox" id="beachvolleyball" name="beachvolleyball" value="beachvolleyball">
+    	<label for="beachvolleyball">Basketball</label><br>
     
-    <input type="checkbox" id="futsal" name="futsal" value="futsal">
-    <label for="futsal">Futsal</label><br>
+    	<input type="checkbox" id="futsal" name="futsal" value="futsal">
+    	<label for="futsal">Futsal</label><br>
     
-    <input type="checkbox" id="handball" name="handball" value="handball">
-    <label for="handball">Handball</label><br>
+    	<input type="checkbox" id="handball" name="handball" value="handball">
+    	<label for="handball">Handball</label><br>
     
-    <input type="checkbox" id="paddle_tennis" name="paddle_tennis" value="paddle_tennis">
-    <label for="paddle_tennis">Paddle-tennis</label><br>
+    	<input type="checkbox" id="paddle_tennis" name="paddle_tennis" value="paddle_tennis">
+    	<label for="paddle_tennis">Paddle-tennis</label><br>
     
-    <input type="checkbox" id="padel" name="padel" value="padel">
-    <label for="padel">Padel</label><br>
+    	<input type="checkbox" id="padel" name="padel" value="padel">
+    	<label for="padel">Padel</label><br>
     
-    <input type="checkbox" id="pelota" name="pelota" value="pelota">
-    <label for="pelota">Pelote basque</label><br>
+    	<input type="checkbox" id="pelota" name="pelota" value="pelota">
+    	<label for="pelota">Pelote basque</label><br>
     
-    <input type="checkbox" id="pickleball" name="pickleball" value="pickleball">
-    <label for="pickleball">Pickleball</label><br>
+    	<input type="checkbox" id="pickleball" name="pickleball" value="pickleball">
+    	<label for="pickleball">Pickleball</label><br>
     
-    <input type="checkbox" id="soccer" name="soccer" value="soccer">
-    <label for="soccer">Football</label><br>
+    	<input type="checkbox" id="soccer" name="soccer" value="soccer">
+    	<label for="soccer">Football</label><br>
     
-    <input type="checkbox" id="squash" name="squash" value="squash">
-    <label for="squash">Squash</label><br>
+    	<input type="checkbox" id="squash" name="squash" value="squash">
+    	<label for="squash">Squash</label><br>
     
-    <input type="checkbox" id="table_tennis" name="table_tennis" value="table_tennis">
-    <label for="table_tennis">Tennis de table</label><br>
+    	<input type="checkbox" id="table_tennis" name="table_tennis" value="table_tennis">
+    	<label for="table_tennis">Tennis de table</label><br>
     
-    <input type="checkbox" id="volleyball" name="volleyball" value="volleyball">
-    <label for="volleyball">Volleyball</label><br>
+    	<input type="checkbox" id="volleyball" name="volleyball" value="volleyball">
+    	<label for="volleyball">Volleyball</label><br>
 	
-	<button id="boutonActualiser" onclick="actualiserMap()"> Actualiser </button><br>
+		<button id="boutonActualiser" onclick="actualiserMap()"> Actualiser </button><br>
+	</div>
+	<div class="tab-content" style="display: none">
+		<div>
+			"Onglet favori"
+		</div>
+	</div>
+	
+	</div>
+
+	
 
 </div>
 

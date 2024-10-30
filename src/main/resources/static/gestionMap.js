@@ -120,11 +120,11 @@ var centerMapOnCurrentLocation = function() {
                 L.marker([latitude, longitude], {icon : iconCurrentLocation}).addTo(map);
             },
             error => {
-                console.error("Erreur lors de l'obtention de la localisation : ", error);
+                map.setView([47.218102,-1.552800], 13);
             }
         );
     } else {
-        console.log("La géolocalisation n'est pas supportée par ce navigateur.");
+        map.setView([47.218102,-1.552800], 13);
     }
 }
 

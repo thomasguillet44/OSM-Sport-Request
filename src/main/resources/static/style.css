@@ -1,5 +1,15 @@
 @charset "UTF-8";
 
+*{
+	margin: 0;
+	padding:0;
+}
+
+
+body {
+	overflow: hidden;
+}
+
 .recherche-col {
 	margin: 2em;
 }
@@ -12,4 +22,54 @@
 
 .actionsContainer {
 	margin: 2em;
+}
+
+.tab-content {
+	border: 1px solid;
+	padding: 15px;
+	border-radius: 10px;
+	box-sizing: border-box;
+	margin-top: 5px;
+}
+
+button.active {
+	background: #207B6E;
+	color: white;
+	border: solid;
+}
+
+button {
+	-webkit-appearance: none;
+	border: none;
+	border-color: black;
+	border-radius: 5px;
+	padding: 10px 20px;
+	color: #207B6E;
+}
+
+button:disabled {
+	color: gray;
+}
+
+button.active:not(:disabled):hover {
+    background-color: #207B6E; /* Changement de couleur */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
+    cursor: pointer; /* Curseur main */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transition fluide */
+}
+
+button:not(:disabled):hover {
+    background-color: #c1b9be; /* Changement de couleur */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
+    cursor: pointer; /* Curseur main */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transition fluide */
+}
+
+h1 {
+	color: white;
+}
+
+.bandeau-sup {
+	padding: 10px;
+	background: #207B6E;
 }
