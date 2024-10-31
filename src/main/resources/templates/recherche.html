@@ -9,8 +9,8 @@
 <div th:fragment="recherche" class="recherche-col">
 
 	<div>
-		<button onclick="selectTab(0)" class="tab-button active">Recherche</button>	
-		<button onclick="selectTab(1)" class="tab-button">Favoris</button>
+		<button onclick="selectTab(0)" class="tab-button active casual">Recherche</button>	
+		<button onclick="selectTab(1)" class="tab-button casual">Favoris</button>
 	</div>
 	
 	<div class="tab-container">
@@ -57,7 +57,7 @@
     	<input type="checkbox" id="volleyball" name="volleyball" value="volleyball">
     	<label for="volleyball">Volleyball</label><br>
 	
-		<button id="boutonActualiser" onclick="actualiserMap()"> Actualiser </button><br>
+		<button class="casual" id="boutonActualiser" onclick="actualiserMap()"> Actualiser </button><br>
 	</div>
 	<div class="tab-content" style="display: none">
 		<div>

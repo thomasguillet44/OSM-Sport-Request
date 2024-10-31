@@ -9,3 +9,8 @@ var selectTab = function(x) {
 	buttons[x].classList.add("active");
 	tabs[x].style.display = "block";
 }
+
+var logout = function() {
+	window.location.href = "/logout";
+
+}

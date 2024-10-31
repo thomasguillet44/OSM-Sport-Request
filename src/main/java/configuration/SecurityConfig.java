@@ -31,7 +31,8 @@ public class SecurityConfig {
 		http
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/login", "/register", "/h2-console/**", "/css/**").permitAll()
+				.requestMatchers("/login", "/register", "/h2-console/**", "/style.css",
+						"/loginStyle.css", "/registerStyle.css", "/css/**").permitAll()
 				.anyRequest().authenticated()
 				)
 		.formLogin(form -> form
@@ -39,7 +40,14 @@ public class SecurityConfig {
 				.defaultSuccessUrl("/home", true)
 				.failureUrl("/login?error=true")
 				)
-		.headers(headers -> headers.disable()); //pour avoir acces à H2
+		.headers(headers -> headers.disable()) //pour avoir acces à H2
+		.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            );
 
 		return http.build();
 	}

@@ -15,9 +15,3 @@ CREATE TABLE favori (
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
 
-INSERT INTO utilisateur (name, password) 
-VALUES ('test', 'password123');
-
-INSERT INTO favori (name, latitude, longitude, utilisateur_id) 
-VALUES ('test name', 0, 0, 1);
-

@@ -7,8 +7,10 @@
 <body>
 	<div class="actionsContainer" th:fragment="actions">
 		<div id="nameOfThePlace">Aucun lieu sélectionné</div>
-		<button id="getToThisPoint" data-lat=0 data-lon=0 onclick="showItinerary(this)" disabled>S'y rendre</button>
-		<button id="addToFavourite" disabled> Ajouter aux favoris </button>
+		<button class="casual" id="getToThisPoint" data-lat=0 data-lon=0 onclick="showItinerary(this)" disabled>S'y rendre</button>
+		<button class="casual" id="addToFavourite" disabled> Ajouter aux favoris </button>
+		
+		<button class="logout" onclick="logout()"> Logout </button>
 	</div>
 </body>
 </html>

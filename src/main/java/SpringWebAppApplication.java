@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * Les scan et enable c'est pour qu'au lancement de l'application on ait bien accès a toutes 
+ * les classes du projet 
+ */
 @SpringBootApplication
 @ComponentScan(basePackages = {"fr.thomas.projetperso.projetOsm.controller", "configuration", "service"})
 @EnableJpaRepositories("repository")
