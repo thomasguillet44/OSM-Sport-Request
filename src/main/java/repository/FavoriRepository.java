@@ -10,7 +10,7 @@ import entity.Favori;
 @Repository
 public interface FavoriRepository extends JpaRepository<Favori, Long>{
 
-	Favori findByFavoriname(String favoriName);
+	Favori findByName(String favoriName);
 	List<Favori> findAllByUserId(Long userId);
 	
 }

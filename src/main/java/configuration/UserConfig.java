@@ -18,7 +18,7 @@ public class UserConfig {
 	@Bean
     public CommandLineRunner createDefaultUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            if (userRepository.findByUsername("user") == null) {
+            if (userRepository.findByUsername("user").isEmpty()) {
                 User defaultUser = new User();
                 defaultUser.setUsername("user");
                 defaultUser.setPassword(passwordEncoder.encode("pass"));

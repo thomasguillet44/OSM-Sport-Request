@@ -19,6 +19,8 @@ import service.CustomUserDetailsService;
 public class SecurityConfig {
 
 	private final CustomUserDetailsService userDetailsService;
+	
+	private final CustomSecurityLoginSuccessHandler successHandler;
 
 	/**
 	 * Filtrer les requetes http pour autoriser seulement les requetes de connexion
@@ -31,13 +33,14 @@ public class SecurityConfig {
 		http
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/login", "/register", "/h2-console/**", "/style.css",
-						"/loginStyle.css", "/registerStyle.css", "/css/**").permitAll()
+				.requestMatchers("/login", "/register", "/h2-console/**",
+						"/loginStyle.css", "/registerStyle.css").permitAll()
 				.anyRequest().authenticated()
 				)
 		.formLogin(form -> form
 				.loginPage("/login")
-				.defaultSuccessUrl("/home", true)
+				.successHandler(successHandler)
+				.permitAll()
 				.failureUrl("/login?error=true")
 				)
 		.headers(headers -> headers.disable()) //pour avoir acces à H2

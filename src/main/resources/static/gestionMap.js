@@ -4,6 +4,10 @@ var map = L.map('map').setView([0, 0], 13); // Coordonnées pour Paris
 var latCurrentLocation;
 var longCurrentLocation;
 
+var latSelectedLocation;
+var longSelectedLocation;
+var nameSelectedLocation;
+
 var loadMap = function() {		
 		centerMapOnCurrentLocation();
 	    // Ajouter la couche de carte OSM
@@ -80,11 +84,15 @@ var updateMapWithData = function(data) {
 			var nameContainer = document.querySelector("#nameOfThePlace");
 			nameContainer.innerHTML = name || "Aucun trouvé pour cette structure";
 			
+			latSelectedLocation = element.lat;
+			longSelectedLocation = element.lon;
+			nameSelectedLocation = name || "Aucun trouvé pour cette structure";
+			
 			var buttonGetToThere = document.querySelector("#getToThisPoint");
 			buttonGetToThere.disabled = false;
 			
-			buttonGetToThere.dataset.lat = element.lat;
-			buttonGetToThere.dataset.lon = element.lon;
+			var buttonAddToFavourite = document.querySelector("#addToFavourite");
+			buttonAddToFavourite.disabled = false;
 		})
 		markers.push(marker);
     });
@@ -113,6 +121,7 @@ var centerMapOnCurrentLocation = function() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             position => {
+				console.log(position.coords);
                 const { latitude, longitude } = position.coords;
 				latCurrentLocation = position.coords.latitude;
 				longCurrentLocation = position.coords.longitude;
@@ -128,10 +137,7 @@ var centerMapOnCurrentLocation = function() {
     }
 }
 
-var showItinerary = function(button) {
-	var latitude = button.dataset.lat;
-	var longitude = button.dataset.lon;
-	
+var showItinerary = function() {	
 	map.eachLayer(layer => {
 	  if (layer.options.waypoints && layer.options.waypoints.length) {
 	    this.map.removeLayer(layer);
@@ -141,10 +147,50 @@ var showItinerary = function(button) {
 	L.Routing.control({
 		waypoints: [
 			L.latLng(latCurrentLocation, longCurrentLocation),
-			L.latLng(latitude, longitude)
+			L.latLng(latSelectedLocation, longSelectedLocation)
 		]
 	}).addTo(map);
 }
+
+var addToFavourite = async function() {
+	let params = new URLSearchParams(window.location.search);
+	let data = {
+	    lat: latSelectedLocation,
+	    lon: longSelectedLocation,
+	    userName: params.get('userName'),
+	    locName: nameSelectedLocation
+	};
+	
+	const response = await 	fetch('/addFavori', {
+		    method: 'POST',
+		    headers: {
+		        'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(data)
+		});
+	if(response.ok) {
+		loadFavoris();
+	}
+}
+
+var loadFavoris = async function() {
+	let params = new URLSearchParams(window.location.search);
+	let userName = params.get('userName');
+	let urlToGet = '/getFavori/' + userName;
+	const response = await fetch(urlToGet);
+	
+	const favoris = await response.json();
+	const favorisTable = document.getElementById('favorisTable');
+	favorisTable.innerHTML = '';
+	favoris.forEach(favori => {
+	      favorisTable.innerHTML += `
+	         <tr>
+	           <td>${favori.name}</td>
+	         </tr>`;
+	});
+}
+	
+
 
 iconCurrentLocation = L.divIcon({
         className: 'custom-div-icon',
@@ -157,3 +203,4 @@ iconCurrentLocation = L.divIcon({
 
 
 window.onload = loadMap();
+window.onload = loadFavoris();

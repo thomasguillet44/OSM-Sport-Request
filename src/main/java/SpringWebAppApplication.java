@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * les classes du projet 
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"fr.thomas.projetperso.projetOsm.controller", "configuration", "service"})
+@ComponentScan(basePackages = {"controller", "configuration", "service"})
 @EnableJpaRepositories("repository")
 @EntityScan("entity")   
 public class SpringWebAppApplication 

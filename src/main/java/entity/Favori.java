@@ -18,6 +18,6 @@ public class Favori {
 	private String name;
 	private double latitude;
 	private double longitude;
-	private int userId;
+	private Long userId;
 
 }

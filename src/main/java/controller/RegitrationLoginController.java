@@ -1,4 +1,4 @@
-package fr.thomas.projetperso.projetOsm.controller;
+package controller;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +49,7 @@ public class RegitrationLoginController {
 			@ModelAttribute("password") String password) {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
-			return "redirect:home";
+			return "redirect:/home/" + userName;
 		} catch (Exception e) {
 			return "redirect:login";
 		}

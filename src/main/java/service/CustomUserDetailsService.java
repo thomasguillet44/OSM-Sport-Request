@@ -2,6 +2,7 @@ package service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,10 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
-		if(user == null) {
+		Optional<User> userOptional = userRepository.findByUsername(username);
+		if(userOptional.isEmpty()) {
 			throw new UsernameNotFoundException("utilisateur introuvable");
 		}
+		
+		User user = userOptional.get();
 		
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), 
 				this.getAuthority(user.getRole()));

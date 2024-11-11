@@ -1,12 +1,16 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import entity.Favori;
+import entity.User;
 import repository.FavoriRepository;
+import repository.UserRepository;
 
 @Service
 public class FavoriService {
@@ -14,19 +18,27 @@ public class FavoriService {
 	@Autowired
 	private FavoriRepository favoriRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	public void addFavorite(Favori favori) {
 		if (!isAlreadyAdded(favori.getName())) {
 			favoriRepository.save(favori);
 		}
 	}
 	
-	public List<Favori> getFavoriByUserId(Long userId) {
-		List<Favori> result = favoriRepository.findAllByUserId(userId);
-		return result;
-	}
-	
 	private boolean isAlreadyAdded(String name) {
-		return (favoriRepository.findByFavoriname(name) != null);
+		return (favoriRepository.findByName(name) != null);
+	}
+
+	public List<Favori> getFavoriByUserName(String userName) {
+		List<Favori> favoriList = new ArrayList<>();
+		Optional<User> userOpt = userRepository.findByUsername(userName);
+		if (userOpt.isPresent()) {
+			Long idUser = userOpt.get().getId();
+			favoriList = favoriRepository.findAllByUserId(idUser);
+		}
+		return favoriList;
 	}
 
 }
