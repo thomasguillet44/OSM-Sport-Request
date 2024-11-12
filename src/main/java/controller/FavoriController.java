@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class FavoriController {
 	private UserRepository userRepository;
 
 	@PostMapping("/addFavori") 
-	public ResponseEntity<String> addFavori(@RequestBody FavoriAddRequestDto request) {
+	public ResponseEntity<Map<String, String>> addFavori(@RequestBody FavoriAddRequestDto request) {
 		double lat = Double.parseDouble(request.getLat());
 		double lon = Double.parseDouble(request.getLon());
 		String userName = request.getUserName();
@@ -43,13 +44,18 @@ public class FavoriController {
 			favoriToAdd.setName(locName);
 			Long idUser = user.get().getId();
 			favoriToAdd.setUserId(idUser);
-			this.favoriService.addFavorite(favoriToAdd);
-			ResponseEntity<String> responseOk = ResponseEntity.ok("Elément ajouté dans vos favoris");
-			return responseOk;
+			if (this.favoriService.addFavorite(favoriToAdd)) {
+				ResponseEntity<Map<String, String>> responseOk = ResponseEntity.ok(Map.of("message","Elément ajouté dans vos favoris"));
+				return responseOk;
+			} else {
+				ResponseEntity<Map<String, String>> responseError = ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					    .body(Map.of("message", "Favoris déjà présent"));
+				return responseError;
+			}
 		}
 		
-		ResponseEntity<String> responseError = ResponseEntity.status(HttpStatus.BAD_REQUEST)
-			    .body("Impossible d'ajouter l'élément dans vos favoris");
+		ResponseEntity<Map<String, String>> responseError = ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			    .body(Map.of("message", "Erreur lors de l'ajout"));
 		return responseError;
 	}
 	

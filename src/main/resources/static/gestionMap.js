@@ -8,6 +8,8 @@ var latSelectedLocation;
 var longSelectedLocation;
 var nameSelectedLocation;
 
+let dataLoaded= false;
+
 var loadMap = function() {		
 		centerMapOnCurrentLocation();
 	    // Ajouter la couche de carte OSM
@@ -33,7 +35,11 @@ var loadMap = function() {
 
 var markers = [];
 
-var actualiserMap = function() {
+var actualiserMap = async function() {
+	
+	document.getElementById('loadingBarContainer').style.display = 'block';
+	document.getElementById('loadingBar').style.width = '0';
+	
 	// Récupérer les coordonnées de la carte visible
 	    var bounds = map.getBounds();
 	    var northEast = bounds.getNorthEast();
@@ -53,24 +59,32 @@ var actualiserMap = function() {
 		
 		var finalQuery = queryInit + (queryFilteredSports || "nwr[leisure]" + queryCoordonates) + `);out body;`;
 		
-	    // Appel à l'API Overpass
-	    fetch('https://overpass-api.de/api/interpreter', {
-	        method: 'POST',
-	        body: finalQuery,
-	        headers: {
-	            'Content-Type': 'application/x-www-form-urlencoded'
-	        }
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        // Traiter les données et mettre à jour la carte
-	        updateMapWithData(data);
-	    })
-	    .catch(error => {
-	        console.error('Erreur lors de la récupération des données :', error);
-	    });
+		try {
+			// Appel à l'API Overpass
+			const response = await fetch('https://overpass-api.de/api/interpreter', {
+				method: 'POST',
+				body: finalQuery,
+				headers: {
+				 	 'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			})
+					
+			const data = await response.json();
+					
+			updateMapWithData(data);
+					
+			if (!response.ok) {
+				throw new Error("La requete OSM a échoué");
+			}
+		} catch(error) {
+			console.error("Erreur :", error);
+		} 
+		
+		finally {
+			document.getElementById('loadingBarContainer').style.display = 'none';
+		}		
+	    
 }
-
 
 var updateMapWithData = function(data) {
     
@@ -152,6 +166,7 @@ var showItinerary = function() {
 	}).addTo(map);
 }
 
+//fonction async pour pouvoir ajouter en dynamique les favoris sans avoir a recharger toute la page
 var addToFavourite = async function() {
 	let params = new URLSearchParams(window.location.search);
 	let data = {
@@ -160,16 +175,24 @@ var addToFavourite = async function() {
 	    userName: params.get('userName'),
 	    locName: nameSelectedLocation
 	};
-	
-	const response = await 	fetch('/addFavori', {
+	try {
+		const response = await 	fetch('/addFavori', {
 		    method: 'POST',
 		    headers: {
 		        'Content-Type': 'application/json'
 		    },
 		    body: JSON.stringify(data)
 		});
-	if(response.ok) {
-		loadFavoris();
+		if(response.ok) {
+			loadFavoris();
+			showPopup("Favori ajouté avec succès !");
+		} else {
+			const errorData = await response.json();
+			showPopup(errorData.message, true);
+		}
+	} catch(error) {
+		const errorData = await error.json();
+		showPopup(errorData.message, true);
 	}
 }
 
@@ -190,7 +213,19 @@ var loadFavoris = async function() {
 	});
 }
 	
+var showPopup = function(message, isError = false) {
+    const popupMessage = document.getElementById('popupMessage');
+    popupMessage.textContent = message;
+    popupMessage.className = isError ? 'error' : '';
+    popupMessage.style.display = 'block';
+    popupMessage.style.opacity = '1';
 
+	//pour gerer l'affichage temporaire de la popup
+    setTimeout(() => {
+        popupMessage.style.opacity = '0';
+        setTimeout(() => popupMessage.style.display = 'none', 500);
+    }, 3000);
+}
 
 iconCurrentLocation = L.divIcon({
         className: 'custom-div-icon',

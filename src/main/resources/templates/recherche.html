@@ -8,6 +8,7 @@
 
 <div th:fragment="recherche" class="recherche-col">
 
+	<div id="popupMessage"></div>
 	<div>
 		<button onclick="selectTab(0)" class="tab-button active casual">Recherche</button>	
 		<button onclick="selectTab(1)" class="tab-button casual">Favoris</button>
@@ -58,6 +59,12 @@
     	<label for="volleyball">Volleyball</label><br>
 	
 		<button class="casual" id="boutonActualiser" onclick="actualiserMap()"> Actualiser </button><br>
+		
+		<div id="loadingBarContainer" style="display: none;">
+    		<div id="loadingBar"></div>
+		</div>
+		
+		</div>
 	</div>
 	
 	<table class="tab-content" style="display: none;">

@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
-*{
+* {
 	margin: 0;
-	padding:0;
+	padding: 0;
 }
-
 
 body {
 	overflow: hidden;
@@ -40,7 +39,7 @@ button.casual.active {
 
 .casual {
 	background-color: #b3dda8;
-} 
+}
 
 button {
 	border: none;
@@ -60,17 +59,19 @@ button:disabled {
 }
 
 button.casual.active:not(:disabled):hover {
-    background-color: #207B6E; /* Changement de couleur */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
-    cursor: pointer; /* Curseur main */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Transition fluide */
+	background-color: #207B6E; /* Changement de couleur */
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
+	cursor: pointer; /* Curseur main */
+	transition: background-color 0.3s, box-shadow 0.3s;
+	/* Transition fluide */
 }
 
 button.casual:not(:disabled):hover {
-    background-color: #c1b9be; /* Changement de couleur */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
-    cursor: pointer; /* Curseur main */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Transition fluide */
+	background-color: #c1b9be; /* Changement de couleur */
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
+	cursor: pointer; /* Curseur main */
+	transition: background-color 0.3s, box-shadow 0.3s;
+	/* Transition fluide */
 }
 
 h1 {
@@ -81,3 +82,44 @@ h1 {
 	padding: 10px;
 	background: #207B6E;
 }
+
+#popupMessage {
+	display: none;
+	top: 20px;
+	right: 20px;
+	padding: 15px;
+	background-color: #4CAF50;
+	color: white;
+	border-radius: 5px;
+	z-index: 1000;
+	transition: opacity 0.5s;
+}
+
+#popupMessage.error {
+	background-color: #f44336;
+}
+
+.login-container {
+	display: none;
+}
+
+#loadingBarContainer {
+	height: 10px;
+	border: 1px solid black;
+	display: none;
+}
+
+#loadingBar {
+	background: #207B6E;
+	width: 0%;
+	height: 100%;
+    animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+
+

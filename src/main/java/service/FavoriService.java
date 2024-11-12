@@ -21,10 +21,12 @@ public class FavoriService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void addFavorite(Favori favori) {
+	public boolean addFavorite(Favori favori) {
 		if (!isAlreadyAdded(favori.getName())) {
 			favoriRepository.save(favori);
+			return true;
 		}
+		return false;
 	}
 	
 	private boolean isAlreadyAdded(String name) {
