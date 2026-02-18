@@ -22,6 +22,19 @@ jobs:
         run: |
           ssh-keyscan -p ${{ secrets.SERVER_PORT_SSH }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Create .env file on server
+        run: |
+          ssh -i ~/.ssh/id_acces_gh -p 54987 debian@51.68.234.182 "
+            echo 'POSTGRES_DB=${{ secrets.POSTGRES_DB }}' > /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'POSTGRES_USER=${{ secrets.POSTGRES_USER }}' >> /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}' >> /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}' > /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}' >> /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' >> /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'SPRING_JPA_HIBERNATE_DDL_AUTO=${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}' >> /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}' >> /home/debian/OSM-Sport-Request/.env.production
+          "
+
       - name: Deploy on server
         run: |
           ssh -p ${{ secrets.SERVER_PORT_SSH }} debian@${{ secrets.SERVER_HOST }} "
