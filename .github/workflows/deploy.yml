@@ -10,27 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Copy SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_acces_gh
-          chmod 600 ~/.ssh/id_acces_gh
-          ssh-keygen -y -f ~/.ssh/id_acces_gh > /dev/null  # valide la clé, fail fast si invalide
+    - name: Add server to known_hosts
+      run: ssh-keyscan -p ${{ secrets.SERVER_PORT_SSH }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-
-      - name: Add server to known_hosts
-        run: |
-          ssh-keyscan -p ${{ secrets.SERVER_PORT_SSH }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy on server
-        run: |
-          ssh -i ~/.ssh/id_acces_gh -p ${{ secrets.SERVER_PORT_SSH }} debian@${{ secrets.SERVER_HOST }} "
-            cd /home/debian/sportfinder &&
-            git pull &&
-            docker-compose -f docker-compose.yml down &&
-            docker-compose -f docker-compose.yml build --no-cache &&
-            docker-compose -f docker-compose.yml up -d
-          "
+    - name: Deploy on server
+      run: |
+        ssh -p ${{ secrets.SERVER_PORT_SSH }} debian@${{ secrets.SERVER_HOST }} "
+          cd /home/debian/sportfinder &&
+          git pull &&
+          docker-compose -f docker-compose.yml down &&
+          docker-compose -f docker-compose.yml build --no-cache &&
+          docker-compose -f docker-compose.yml up -d
+        "
