@@ -19,12 +19,19 @@ jobs:
     - name: Add server to known_hosts
       run: ssh-keyscan -p ${{ secrets.SERVER_PORT_SSH }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy on server
-      run: |
-        ssh -p ${{ secrets.SERVER_PORT_SSH }} debian@${{ secrets.SERVER_HOST }} "
-          cd /home/debian/sportfinder &&
-          git pull &&
-          docker-compose -f docker-compose.yml down &&
-          docker-compose -f docker-compose.yml build --no-cache &&
-          docker-compose -f docker-compose.yml up -d
-        "
+    - name: SSH into server and deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: debian
+        port: ${{ secrets.SERVER_PORT_SSH }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          ssh -p ${{ secrets.SERVER_PORT_SSH }} debian@${{ secrets.SERVER_HOST }} "
+            cd /home/debian/sportfinder &&
+            git pull &&
+            docker-compose -f docker-compose.yml down &&
+            docker-compose -f docker-compose.yml build --no-cache &&
+            docker-compose -f docker-compose.yml up -d
+          "
