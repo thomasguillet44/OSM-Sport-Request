@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import java.util.Optional;
 
 import entity.User;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,9 @@ public class RegitrationLoginController {
 	@PostMapping("/register")
 	public String registration(@ModelAttribute("userName") String userName, 
 			@ModelAttribute("password") String password) {
-		if(userRepository.findByUsername(userName) != null) {
+
+		Optional<User> userOptional = userRepository.findByUsername(userName);
+		if(userOptional.isPresent()) {
 			return "redirect:register";
 		}
 		User user = new User();

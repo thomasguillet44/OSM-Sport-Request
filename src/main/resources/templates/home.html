@@ -17,13 +17,15 @@
 		<h1>Sport - Finder</h1>
 	</div>
 
-	<div class="row">
-		<div class="col-md-3">
-			<div th:insert="recherche :: recherche"></div>
-		</div>
-		<div class="col-md-9">
-			<div th:insert="carte :: carte"></div>
-			<div th:insert="actions :: actions"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 left-container">
+				<div th:insert="recherche :: recherche"></div>
+			</div>
+			<div class="col-md-9 right-container">
+				<div th:insert="carte :: carte"></div>
+				<div th:insert="actions :: actions"></div>
+			</div>
 		</div>
 	</div>
 	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

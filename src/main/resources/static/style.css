@@ -3,32 +3,61 @@
 * {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-	overflow: hidden;
+	overflow: auto;
 }
 
-.recherche-col {
-	margin: 2em;
+.left-container {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.right-container {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.container-fluid {
+	margin-top: 10px;
 }
 
 #map {
-	height: 500px; /* Hauteur de la carte */
-	width: 100%; /* Largeur de la carte */
-	margin-top: 3em;
+	height: 70vh;
+	width: 100%;
 }
 
-.actionsContainer {
-	margin: 2em;
+.recherche-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.tab-container {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .tab-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 	border: 1px solid;
 	padding: 15px;
 	border-radius: 10px;
-	box-sizing: border-box;
 	margin-top: 5px;
+}
+
+.sports-list {
+	height: 60vh;
+	overflow-y: auto;
+}
+
+.bottom-actions {
+	padding-top: 10px;
+	background: white;
 }
 
 button.casual.active {
@@ -59,19 +88,17 @@ button:disabled {
 }
 
 button.casual.active:not(:disabled):hover {
-	background-color: #207B6E; /* Changement de couleur */
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
-	cursor: pointer; /* Curseur main */
+	background-color: #207B6E;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
 	transition: background-color 0.3s, box-shadow 0.3s;
-	/* Transition fluide */
 }
 
 button.casual:not(:disabled):hover {
-	background-color: #c1b9be; /* Changement de couleur */
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre */
-	cursor: pointer; /* Curseur main */
+	background-color: #c1b9be;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
 	transition: background-color 0.3s, box-shadow 0.3s;
-	/* Transition fluide */
 }
 
 h1 {
@@ -81,6 +108,7 @@ h1 {
 .bandeau-sup {
 	padding: 10px;
 	background: #207B6E;
+	width: 100%;
 }
 
 #popupMessage {

@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-prod
+    restart: unless-stopped
+    env_file:
+      - ./.env/.env.production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: sportfinder-app
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env/.env.production
+
+volumes:
+  postgres_data:
