@@ -16,8 +16,9 @@ jobs:
       - name: Copy SSH key
         run: |
           mkdir -p ~/.ssh
-          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_acces_gh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_acces_gh
           chmod 600 ~/.ssh/id_acces_gh
+          ssh-keygen -y -f ~/.ssh/id_acces_gh > /dev/null  # valide la clé, fail fast si invalide
 
 
       - name: Add server to known_hosts
