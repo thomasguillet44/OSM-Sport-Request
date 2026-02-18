@@ -28,7 +28,7 @@ jobs:
             echo 'POSTGRES_DB=${{ secrets.POSTGRES_DB }}' > /home/debian/OSM-Sport-Request/.env.production &&
             echo 'POSTGRES_USER=${{ secrets.POSTGRES_USER }}' >> /home/debian/OSM-Sport-Request/.env.production &&
             echo 'POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}' > /home/debian/OSM-Sport-Request/.env.production &&
+            echo 'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}' >> /home/debian/OSM-Sport-Request/.env.production &&
             echo 'SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}' >> /home/debian/OSM-Sport-Request/.env.production &&
             echo 'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' >> /home/debian/OSM-Sport-Request/.env.production &&
             echo 'SPRING_JPA_HIBERNATE_DDL_AUTO=${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}' >> /home/debian/OSM-Sport-Request/.env.production &&
