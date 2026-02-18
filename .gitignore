@@ -1,2 +1,2 @@
 /target/
-.application-prod.properties
+/src/main/ressources/.application-prod.properties
