@@ -22,18 +22,30 @@ jobs:
         run: |
           ssh-keyscan -p ${{ secrets.SERVER_PORT_SSH }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Create .env file on server
+      - name: Create application-production.properties on server
         run: |
           ssh -i ~/.ssh/id_acces_gh -p 54987 debian@51.68.234.182 "
-            echo 'POSTGRES_DB=${{ secrets.POSTGRES_DB }}' > /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'POSTGRES_USER=${{ secrets.POSTGRES_USER }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'SPRING_JPA_HIBERNATE_DDL_AUTO=${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}' >> /home/debian/OSM-Sport-Request/.env.production &&
-            echo 'SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}' >> /home/debian/OSM-Sport-Request/.env.production
+            cat > /home/debian/OSM-Sport-Request/src/main/resources/application-production.properties <<EOL
+            # Spring Boot écoute toutes les interfaces
+            server.address=0.0.0.0
+            server.port=8080
+
+            # Connexion PostgreSQL via le nom du service Docker
+            spring.datasource.url=jdbc:postgresql://db:5432/${{ secrets.POSTGRES_DB }}
+            spring.datasource.username=${{ secrets.POSTGRES_USER }}
+            spring.datasource.password=${{ secrets.POSTGRES_PASSWORD }}
+            spring.datasource.driver-class-name=org.postgresql.Driver
+
+            # JPA / Hibernate
+            spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+            spring.jpa.hibernate.ddl-auto=update
+            spring.jpa.show-sql=true
+
+            # Profil actif
+            spring.profiles.active=prod
+            EOL
           "
+
 
       - name: Deploy on server
         run: |
