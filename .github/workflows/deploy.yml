@@ -25,7 +25,7 @@ jobs:
 
       - name: Deploy on server
         run: |
-          ssh -i ~/.ssh/id_acces_gh -p ${{ secrets.SERVER_PORT_SSH }} debian@${{ secrets.SERVER_HOST }} "
+          ssh -i ~/.ssh/id_acces_gh -p 54987 debian@51.68.234.182 "
             cd /home/debian/sportfinder &&
             git pull &&
             docker-compose -f docker-compose.yml down &&
