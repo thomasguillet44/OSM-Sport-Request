@@ -15,11 +15,17 @@ services:
     container_name: sportfinder-app
     depends_on:
       - db
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
+    restart: always
+    expose:
+      - "8080"
     env_file:
       - .env.production
+    networks:
+      - web
 
 volumes:
   postgres_data:
+
+networks:
+  web:
+    external: true
