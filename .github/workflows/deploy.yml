@@ -21,7 +21,7 @@ jobs:
 
       - name: Add server to known_hosts
         run: |
-          ssh-keyscan -p ${{ secrets.SERVER_PORT_SSH }} -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 54987 -H 51.68.234.182 >> ~/.ssh/known_hosts
 
       - name: Deploy on server
         run: |
