@@ -1,20 +1,10 @@
 services:
-  db:
-    image: postgres:15
-    container_name: postgres-prod
-    restart: unless-stopped
-    env_file:
-      - ./src/main/resources/application-production.properties
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - web 
-
   sportfinder-app:
     build: .
     container_name: sportfinder-app
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
     restart: always
     expose:
       - "8080"
@@ -22,9 +12,6 @@ services:
       - ./src/main/resources/application-production.properties
     networks:
       - web
-
-volumes:
-  postgres_data:
 
 networks:
   web:

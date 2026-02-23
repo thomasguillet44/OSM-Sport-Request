@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="icon" type="image/jpg" href="/icone-osmsportfinder.jpg" />
+<title>Sport-Finder</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -15,6 +16,10 @@
 
 	<div class="bandeau-sup">
 		<h1>Sport - Finder</h1>
+		<div class="user-name-container">
+			<i class="bi bi-person"></i>
+			<div th:text="${userName}"></div>
+		</div>
 	</div>
 
 	<div class="container-fluid">

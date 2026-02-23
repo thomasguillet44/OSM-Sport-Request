@@ -106,9 +106,17 @@ h1 {
 }
 
 .bandeau-sup {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	padding: 10px;
 	background: #207B6E;
 	width: 100%;
+}
+
+.user-name-container {
+	color: white;
+	font-size: 3vh;
 }
 
 #popupMessage {

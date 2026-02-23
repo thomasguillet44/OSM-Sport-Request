@@ -91,25 +91,37 @@ var updateMapWithData = function(data) {
 	clearMarkers();
 	
     data.elements.forEach(element => {
-        var marker = L.marker([element.lat, element.lon]).addTo(map)
-                .bindPopup(miseEnFormeTag(element.tags));
-		marker.addEventListener('click', function() {
-			var name = element.tags["name"];
-			var nameContainer = document.querySelector("#nameOfThePlace");
-			nameContainer.innerHTML = name || "Aucun trouvé pour cette structure";
-			
-			latSelectedLocation = element.lat;
-			longSelectedLocation = element.lon;
-			nameSelectedLocation = name || "Aucun trouvé pour cette structure";
-			
-			var buttonGetToThere = document.querySelector("#getToThisPoint");
-			buttonGetToThere.disabled = false;
-			
-			var buttonAddToFavourite = document.querySelector("#addToFavourite");
-			buttonAddToFavourite.disabled = false;
-		})
-		markers.push(marker);
-    });
+		console.log(element);
+		let lat, long;
+
+		if (element.type === 'node' && element.lat && element.lon) {
+			lat = element.lat;
+			long = element.lon;
+		} else if (element.type === 'way' || element.type === 'relation' && element.center?.lat && element.center?.lon) {
+			lat = element.center.lat;
+			long = element.center.lon;
+		}
+		if (lat && long) {
+			var marker = L.marker([lat, long]).addTo(map)
+					.bindPopup(miseEnFormeTag(element.tags));
+			marker.addEventListener('click', function() {
+				var name = element.tags["name"];
+				var nameContainer = document.querySelector("#nameOfThePlace");
+				nameContainer.innerHTML = name || "Aucun trouvé pour cette structure";
+				
+				latSelectedLocation = lat;
+				longSelectedLocation = long;
+				nameSelectedLocation = name || "Aucun trouvé pour cette structure";
+				
+				var buttonGetToThere = document.querySelector("#getToThisPoint");
+				buttonGetToThere.disabled = false;
+				
+				var buttonAddToFavourite = document.querySelector("#addToFavourite");
+				buttonAddToFavourite.disabled = false;
+			})
+			markers.push(marker);
+		}
+	});
 }
 
 var miseEnFormeTag = function(tags) {
