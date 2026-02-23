@@ -2,9 +2,6 @@ services:
   sportfinder-app:
     build: .
     container_name: sportfinder-app
-    depends_on:
-      postgres:
-        condition: service_healthy
     restart: always
     expose:
       - "8080"
